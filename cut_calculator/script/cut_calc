@@ -1,0 +1,143 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'pry'
+
+class Stick
+  def initialize( length )
+    @length = length
+    @cuts = Array.new
+  end
+  
+  def length
+    @length
+  end
+  
+  def cuts
+    @cuts
+  end
+  
+  def waste
+    @length - total_cuts
+  end
+  
+  def total_cuts
+    unless @cuts.empty?
+      total = 0
+      @cuts.each do |cut|
+        total += cut.to_i
+      end
+      total
+    else
+      0
+    end
+  end
+  
+  def balance
+    @length - total_cuts
+  end
+  
+  def cut amount
+    @cuts << ( amount ) # 3mm for saw
+  end
+  
+end
+
+def cut_list
+  cuts = Array.new
+  20.times  { cuts << 432  }
+  184.times { cuts << 552  }
+  11.times  { cuts << 584  }
+  169.times { cuts << 629  }
+  23.times  { cuts << 635  }
+  36.times  { cuts << 711  }
+  12.times  { cuts << 737  }
+  221.times { cuts << 787  }
+  23.times  { cuts << 845  }
+  12.times  { cuts << 902  }
+  8.times   { cuts << 940  }
+  12.times  { cuts << 1045 }
+  11.times  { cuts << 1387 }
+  12.times  { cuts << 1686 }
+  10.times  { cuts << 1880 }
+  1.times   { cuts << 1930 }
+  96.times  { cuts << 2388 }
+  23.times  { cuts << 2438 }
+  8.times   { cuts << 2489 }
+  12.times  { cuts << 2502 }
+  11.times  { cuts << 2578 }
+  12.times  { cuts << 2794 }
+  cuts.sort!.reverse!
+end
+
+schedule = Array.new
+list = cut_list
+
+@sheet = 0
+
+def start_at num
+  ( num * 7 ) - 1
+end
+
+def end_at num
+  num * 7
+end
+
+@sheet2800 = 0
+@sheet2600 = 0
+@sheet2400 = 0
+@sheet890  = 0
+@sheet690  = 0
+
+def next_sheet
+  @sheet += 1
+  case @sheet
+    when 1..end_at(2)
+      @sheet2800 += 1
+      2800
+    when start_at(2)..end_at(4) 
+      @sheet690 += 1
+      690
+    when start_at(4)..end_at(19) 
+      @sheet890 += 1      
+      890
+    when start_at(19)..end_at(34)
+      @sheet2600 += 1
+      2600
+    else
+      @sheet2400 += 1
+      2400
+  end
+end
+
+until list.empty? do
+  
+  schedule << Stick.new(next_sheet)
+
+  schedule.each do |stick|
+    if stick.balance > (list.first.to_i)
+      stick.cut(list[0])
+      list.slice!(0)
+      if !list.empty? and stick.balance > list.last
+        list.each_with_index do |cut,i|
+          if stick.balance > list.last && stick.balance > cut
+            stick.cut(list[i])
+            list.delete_at(i)
+          end
+        end
+      end
+    end
+  end
+end
+
+puts "length, cut_1, cut_2, cut_3, cut_4, waste"
+schedule.each do |stick|
+  puts "#{stick.length}, #{stick.cuts[0]}, #{stick.cuts[1].to_i}, #{stick.cuts[2].to_i}, #{stick.cuts[3].to_i}, #{stick.waste}"
+end
+
+puts "Total Sheets #{schedule.count / 7}"
+
+puts "Sheets of 2800mm: #{@sheet2800 / 7}"
+puts "Sheets of 2600mm: #{@sheet2600 / 7}"
+puts "Sheets of 2400mm: #{@sheet2400 / 7}"
+puts "Sheets of  890mm: #{@sheet890  / 7}"
+puts "Sheets of  690mm: #{@sheet690  / 7}"

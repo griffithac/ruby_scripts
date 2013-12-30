@@ -1,0 +1,90 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'pry'
+require 'activesupport'
+
+class Stick
+  def initialize( length )
+    @length = length
+    @cuts = Array.new
+  end
+  
+  def cuts
+    @cuts
+  end
+  
+  def waste
+    @length - total_cuts
+  end
+  
+  def total_cuts
+    if @cuts.present?
+      @cuts.each do |cut|
+        total += cut
+      end
+    else
+      0
+    end
+  end
+  
+  def balance
+    @length - total_cuts
+  end
+  
+  def cut amount
+    @cuts << amount
+  end
+  
+end
+
+def cut_list
+  cuts = Array.new
+  
+  20.times  { cuts << 432  }
+  184.times { cuts << 552  }
+  11.times  { cuts << 584  }
+  169.times { cuts << 629  }
+  23.times  { cuts << 635  }
+  36.times  { cuts << 711  }
+  12.times  { cuts << 737  }
+  221.times { cuts << 787  }
+  23.times  { cuts << 845  }
+  12.times  { cuts << 902  }
+  8.times   { cuts << 940  }
+  12.times  { cuts << 1045 }
+  11.times  { cuts << 1387 }
+  12.times  { cuts << 1686 }
+  10.times  { cuts << 1880 }
+  1.times   { cuts << 1930 }
+  96.times  { cuts << 2388 }
+  # 23.times  { cuts << 2438 }
+  # 8.times   { cuts << 2489 }
+  # 12.times  { cuts << 2502 }
+  # 11.times  { cuts << 2578 }
+  # 12.times  { cuts << 2794 }
+  
+  cuts.sort!.reverse!
+
+end
+
+schedule = Array.new
+schedule << Stick.new(2400)
+
+list = cut_list
+binding.pry
+while !list.empty? do
+
+  schedule.each do stick
+    if stick.balance > to_cut
+      stick.cut(list.first)
+      list.slice!(0)
+    else
+      schedule << Stick.new(2400)
+    end
+  end  
+end
+
+schedule.each do |stick|
+  puts "#{stick.cuts.to_s} cuts / #{stick.waste}"
+end
+  
