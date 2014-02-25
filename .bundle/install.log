@@ -1,0 +1,4 @@
+# Logfile created on 2014-01-13 09:56:54 -0800 by logger.rb/41954
+I, [2014-01-13T09:56:54.870280 #39979]  INFO -- : 0:  mini_portile (0.5.2) from /Users/andrewg/.rvm/gems/ruby-2.0.0-p353/specifications/mini_portile-0.5.2.gemspec
+I, [2014-01-13T09:56:54.886728 #39979]  INFO -- : 0:  nokogiri (1.6.1) from /Users/andrewg/.rvm/gems/ruby-2.0.0-p353/specifications/nokogiri-1.6.1.gemspec
+I, [2014-01-13T09:56:54.887009 #39979]  INFO -- : 0:  bundler (1.5.1) from /Users/andrewg/.rvm/gems/ruby-2.0.0-p353@global/specifications/bundler-1.5.1.gemspec
