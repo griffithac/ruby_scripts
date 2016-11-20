@@ -9,7 +9,6 @@ Capybara.run_server = false
 Capybara.current_driver = :webkit
 Capybara.app_host = "http://hotpads.com/"
 
-
 class HotPads
 
   include Capybara::DSL
