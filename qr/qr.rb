@@ -7,4 +7,4 @@
 
 require 'zxing'
 
-print ZXing.decode!( './test_qr.jpeg' )
+print ZXing.decode!(ARGV[0])
